@@ -5,11 +5,38 @@ services:
   db:
     image: postgres:alpine3.18
     container_name: users_db
-    build:
-      context: .
+    restart: always
     ports:
-      - "5433:5432"
+      - "5430:5432"
+    networks:
+      - custom
+    volumes:
+      - db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=12345
-      - POSTGRES_DB=music
+      - POSTGRES_DB=users
+
+
+  auth:
+    image: users_fastapi
+    container_name: users_fastapi
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'sh -c "alembic upgrade head && python main.py"'
+    ports:
+      - 8000:8000
+    networks:
+      - custom
+
+
+
+
+networks:
+  custom:
+    driver: bridge
+volumes:
+  db-data:

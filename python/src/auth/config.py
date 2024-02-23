@@ -9,7 +9,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DB_URL = os.getenv('DB_CONFIG')
+#DB_URL = os.getenv('DB_CONFIG')
+DB_URL = "postgresql+asyncpg://postgres:12345@db:5432/users"
 
 
 class DatabaseSession:

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from auth.router import router
 from auth.repository import UserRepository
+import uvicorn
 
 
 app = FastAPI()
@@ -18,3 +19,6 @@ async def all():
 
 
 app.include_router(router=router, prefix='/auth', tags=['AUTH'])
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
