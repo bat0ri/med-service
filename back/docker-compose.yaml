@@ -24,7 +24,7 @@ services:
     depends_on:
       - db
     build:
-      context: .
+      context: src/auth/
       dockerfile: Dockerfile
     command: 'sh -c "alembic upgrade head && python main.py"'
     ports:
@@ -32,7 +32,17 @@ services:
     networks:
       - custom
 
-
+  gateway:
+    image: gateway
+    container_name: gateway
+    build:
+      context: src/gateway/
+      dockerfile: Dockerfile
+    command: 'sh -c "python main.py"'
+    ports:
+      - 7000:7000
+    networks:
+      - custom
 
 
 networks:
