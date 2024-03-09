@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from fastapi.security import HTTPBearer,  HTTPAuthorizationCredentials
 from fastapi import Request, HTTPException, Depends, status
+import httpx
 
 
 
@@ -23,10 +24,9 @@ class JWTBearer(HTTPBearer):
 
     async def verify_jwt(self, jwt_token: str):
         is_token_valid = False
-
         try:
             async with httpx.AsyncClient() as client:
-                response = await client.post("http://users_fastapi:8000/auth/validate", json={"token": jwt_token})
+                response = await client.post("http://0.0.0.0:8000/auth/validate", json={"token": jwt_token})
             is_token_valid = True
         except jwt.ExpiredSignatureError:
             is_token_valid = False

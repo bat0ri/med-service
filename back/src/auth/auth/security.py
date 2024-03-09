@@ -18,7 +18,7 @@ def encode_jwt(user, expire_minutes: int = 5000):
     return jwt.encode(payload, "secret", algorithm="HS256")
 
 
-def decode_jwt(token, secret_key="secret"):
+def decode_jwt(token: str, secret_key="secret"):
     try:
         payload = jwt.decode(token, secret_key, algorithms=["HS256"])
         return payload

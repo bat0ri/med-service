@@ -18,3 +18,6 @@ class User(Base):
     hash_password = Column(String, nullable=False)
     create_date = Column(DateTime, default=datetime.datetime.now(), nullable= True)
 
+    # DOCTOR / PACIENT / ADMIN
+    role = Column(String, nullable=False, default='PACIENT')
+

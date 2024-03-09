@@ -1,18 +1,18 @@
 from auth.repository import UserRepository
-from auth.schemas import UserInputSchema, AuthResponse, UserOutput
+from auth.schemas import UserInputSchema, AuthResponse, UserOutput, UserRegisterSchema
 from auth.model import User
 from auth import security
 from auth.hashing import BcryptHasher
 from fastapi import HTTPException, status
 
 
-async def create_user(user: UserInputSchema):
+async def create_user(user: UserRegisterSchema):
     new_user = await UserRepository.get_by_email(user.email)
 
     if new_user:
         raise HTTPException(status_code=400, detail="Email уже зарегистрирован")
 
-    new_user = User(email=user.email, hash_password=BcryptHasher.get_password_hash(user.password))
+    new_user = User(email=user.email, hash_password=BcryptHasher.get_password_hash(user.password), role=user.role)
     await UserRepository.insert(new_user)
     return new_user
 
@@ -28,7 +28,7 @@ async def login_user(user: UserInputSchema):
     else:
         response = AuthResponse(
             token=security.encode_jwt(user),
-            user=UserOutput(id=new_user.id, email=new_user.email)
+            user=UserOutput(id=new_user.id, email=new_user.email, role=new_user.role)
         )
         return response
 

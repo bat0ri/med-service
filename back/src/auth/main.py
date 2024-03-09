@@ -3,9 +3,18 @@ from auth.router import router
 from auth.repository import UserRepository
 import uvicorn
 from fixtures.init_user import init_user_fixture
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:7000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.on_event("startup")
