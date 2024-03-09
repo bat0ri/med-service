@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 
-DB_URL = "postgresql+asyncpg://postgres:12345@localhost:5431/cards"
+DB_URL = "postgresql+asyncpg://postgres:12345@db_cards:5432/cards"
 
 
 class DatabaseSession:

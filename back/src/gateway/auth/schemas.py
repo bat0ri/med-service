@@ -7,5 +7,6 @@ class UserInputSchema(BaseModel):
     email: str
     password: str
 
+
 class TokenInput(BaseModel):
     token: str

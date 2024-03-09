@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from auth.schemas import UserInputSchema
+from auth.schemas import UserInputSchema, TokenInput
 from auth import service, security
 
 
@@ -17,5 +17,5 @@ async def login(user: UserInputSchema):
 
 
 @router.post('/validate', status_code=200)
-async def protected(token: str):
-    return security.decode_jwt(token)
+async def protected(token: TokenInput):
+    return security.decode_jwt(token.token)

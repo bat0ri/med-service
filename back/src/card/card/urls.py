@@ -3,8 +3,15 @@ from card.repository import CardRepository
 from card.schemas import CardInput
 from card.model import Card
 
+
 router = APIRouter(prefix='/card', tags=["Card's endpoints"])
 
+
+@router.get('/')
+async def hello():
+    return {
+        'msg': 'hello'
+    }
 
 
 @router.get('/list')
