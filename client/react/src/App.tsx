@@ -8,6 +8,7 @@ import { observer } from 'mobx-react-lite';
 import { User } from './models/User';
 
 import { Routes, Route } from 'react-router-dom';
+import DoctorHome from './components/DoctorHome';
 
 
 
@@ -17,11 +18,11 @@ function App() {
     const {store} = useContext(Context);
     const [users, setUsers] = useState<User[]>([]);
 
-    useEffect(() => {
-        if (localStorage.getItem('access')) {
-            store.checkAuth()
-        }
-    }, [])
+    //useEffect(() => {
+    //    if (localStorage.getItem('access')) {
+    //        store.checkAuth()
+    //    }
+    //}, [])
 
     if(store.isLoading) {
         return(
@@ -46,7 +47,7 @@ function App() {
     <div className="App">
         <Routes>
             <Route path='/home' element={<>Home</>}/>
-            <Route path="/profile" element={<>Profile</>}/>
+            <Route path="/profile" element={<DoctorHome/>}/>
         </Routes>
     </div>
   );

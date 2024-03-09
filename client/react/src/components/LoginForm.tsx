@@ -16,10 +16,10 @@ const LoginForm: FC = () => {
     const handleLogin = async () => {
         try {
             await store.login(email, password);
-            if (store.isAuth) {
+            if (store.isAuth && store.user.role && store.user.role === 'DOCTOR') {
                 navigate('/profile');
             } else {
-                navigate('/home');
+                console.log('FAIL', store.isAuth)
             }
         } catch (e: any) {
             if ('response' in e && e.response?.data?.message) {

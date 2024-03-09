@@ -7,15 +7,15 @@ export const API_URL = "http://127.0.0.1:7000"
 
 const $api = axios.create({
     baseURL: API_URL,
+    withCredentials: true,
 });
 
-//withCredentials: true,
 
 
-//$api.interceptors.request.use((config) => {
-//    config.headers.Authorization = `Bearer ${localStorage.getItem('access')}`
-//    return config
-//})
+$api.interceptors.request.use((config) => {
+    config.headers.Authorization = `Bearer ${localStorage.getItem('access')}`
+    return config
+})
 
 
 //$api.interceptors.response.use((config) => {
