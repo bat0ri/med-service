@@ -4,11 +4,11 @@ import LoginForm from './components/LoginForm';
 import RegistrationForm from './components/RegistrationForm';
 import { Context } from '.';
 import { observer } from 'mobx-react-lite';
-import AppointmentForm from './components/AppointmentForm';
+
 import { User } from './models/User';
-import UserService from './services/UserService';
+
 import { Routes, Route } from 'react-router-dom';
-import DoctorProfile from './components/DoctorProfile';
+
 
 
 
@@ -29,14 +29,7 @@ function App() {
         )
     }
 
-    async function getDoctors() {
-        try {
-            const response = await UserService.fetchDoctors();
-            setUsers(response.data);
-        } catch(e) {
-            console.log(e)
-        }
-    }
+
 
     if(!store.isAuth) {
         return (
@@ -52,8 +45,8 @@ function App() {
   return (
     <div className="App">
         <Routes>
-            <Route path='/home' element={<AppointmentForm/>}/>
-            <Route path="/profile" element={<DoctorProfile/>}/>
+            <Route path='/home' element={<>Home</>}/>
+            <Route path="/profile" element={<>Profile</>}/>
         </Routes>
     </div>
   );

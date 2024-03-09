@@ -1,5 +1,5 @@
 from auth.repository import UserRepository
-from auth.schemas import UserInputSchema
+from auth.schemas import UserInputSchema, AuthResponse, UserOutput
 from auth.model import User
 from auth import security
 from auth.hashing import BcryptHasher
@@ -26,5 +26,9 @@ async def login_user(user: UserInputSchema):
     if not BcryptHasher.verify_password(user.password, new_user.hash_password):
         raise HTTPException(status_code=400, detail="Неправильный пароль")
     else:
-        return security.encode_jwt(user)
+        response = AuthResponse(
+            token=security.encode_jwt(user),
+            user=UserOutput(id=new_user.id, email=new_user.email)
+        )
+        return response
 

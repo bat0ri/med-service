@@ -1,8 +1,10 @@
 import { User } from "../User"
 
 export interface AuthResponce {
-    access_token: string
-    refresh_token: string
-    token_type: string
+    token: string
+    user: User
+}
+
+export interface RegistrationResponce {
     user: User
 }
