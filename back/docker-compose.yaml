@@ -1,0 +1,77 @@
+version: '3'
+
+services:
+
+  db_auth:
+    image: postgres:alpine3.18
+    container_name: users_db
+    restart: always
+    networks:
+      - custom
+    volumes:
+      - db-data-auth:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=users
+
+
+  auth:
+    image: users_fastapi
+    container_name: users_fastapi
+    depends_on:
+      - db_auth
+    build:
+      context: src/auth/
+      dockerfile: Dockerfile
+    command: 'sh -c "alembic upgrade head && python main.py"'
+    networks:
+      - custom
+
+  gateway:
+    image: gateway
+    container_name: gateway
+    build:
+      context: src/gateway/
+      dockerfile: Dockerfile
+    command: 'sh -c "python main.py"'
+    ports:
+      - 7000:7000
+    networks:
+      - custom
+
+  #db_cards:
+  #  image: postgres:alpine3.18
+  #  container_name: cards_db
+  #  restart: always
+  #  ports:
+  #    - "5431:5432"
+  #  networks:
+  #    - custom
+  #  volumes:
+  #    - db-data-cards:/var/lib/postgresql/data
+  #  environment:
+  #    - POSTGRES_USER=postgres
+  #    - POSTGRES_PASSWORD=12345
+  #    - POSTGRES_DB=cards
+
+  #cards:
+  #  image: cards_fastapi
+  #  container_name: card_fastapi
+  #  depends_on:
+  #    - db_cards
+  #  build:
+  #    context: src/card/
+  #    dockerfile: Dockerfile
+  #  command: 'sh -c "alembic upgrade head && python main.py"'
+  #  ports:
+  #    - 8001:8001
+  #  networks:
+  #    - custom
+
+networks:
+  custom:
+    driver: bridge
+volumes:
+  db-data-cards:
+  db-data-auth:
