@@ -71,9 +71,25 @@ services:
   #  networks:
   #    - custom
 
+  db_appoint:
+    image: postgres:alpine3.18
+    container_name: db_appoint
+    restart: always
+    ports:
+      - "5428:5432"
+    networks:
+      - custom
+    volumes:
+      - db-data-appoints:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=appoints
+
 networks:
   custom:
     driver: bridge
 volumes:
   db-data-cards:
   db-data-auth:
+  db-data-appoints:
