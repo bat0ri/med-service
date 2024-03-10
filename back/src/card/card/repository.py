@@ -10,7 +10,6 @@ from config import db
 
 class CardRepository:
 
-
     @staticmethod
     async def insert(new_card: Card) -> Card:
         async with db as session:
@@ -33,3 +32,11 @@ class CardRepository:
             query = select(Card).filter(Card.id==id)
             result = await session.execute(query)
             return result.scalars().first()
+
+
+    @staticmethod
+    async def drop_all():
+        async with db as session:
+            query = delete(Card)
+            result = await session.execute(query)
+            return await db.commit_rollback()

@@ -7,13 +7,6 @@ from card.model import Card
 router = APIRouter(prefix='/card', tags=["Card's endpoints"])
 
 
-@router.get('/')
-async def hello():
-    return {
-        'msg': 'hello'
-    }
-
-
 @router.get('/list')
 async def get_all_cards():
     return await CardRepository.get_all()
@@ -23,3 +16,7 @@ async def get_all_cards():
 async def create_card(card: CardInput):
     new_card = Card(name=card.name)
     return await CardRepository.insert(new_card)
+
+@router.delete('/delete')
+async def delete_all_cards():
+    return await CardRepository.drop_all()
